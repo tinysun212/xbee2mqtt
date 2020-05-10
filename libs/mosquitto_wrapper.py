@@ -22,7 +22,7 @@ __contact__ = "xose.perez@gmail.com"
 __copyright__ = "Copyright (C) 2013 Xose Pérez"
 __license__ = 'GPL v3'
 
-from mosquitto import Mosquitto
+from paho.mqtt.client import Client as Mosquitto
 import ctypes
 import time
 import logging
@@ -90,7 +90,8 @@ class MosquittoWrapper(Mosquitto):
         retain = retain if retain is not None else self.retain
         Mosquitto.publish(self, topic, str(value), qos, retain)
 
-    def _on_connect(self, mosq, obj, rc):
+    @staticmethod
+    def _on_connect(self, userdata, rc):
         """
         Callback when connection to the MQTT broker has succedeed or failed
         """
